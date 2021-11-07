@@ -35,8 +35,12 @@
   justify-content: center;
   overflow: hidden;
   align-items: flex-start;
-  padding-top: 20vh;
+  padding-top: 56px;
   scroll-snap-type: y mandatory;
+}
+
+.container aside {
+  padding-top: 56px;
 }
 
 .container main.form {
@@ -51,7 +55,7 @@
 
   .container main {
     display: flex;
-    padding: 0;
+    padding-top: 0;
     min-height: 30vh;
     max-height: none;
 
@@ -215,8 +219,8 @@
 
 .resume {
   border-radius: 8px;
-  scroll-margin-top: 32px;
-  scroll-snap-align: start;
+  /* scroll-margin-top: 32px;
+  scroll-snap-align: start; */
 }
 
 .resumeChart {
@@ -282,7 +286,11 @@
   transition: box-shadow 1s linear;
 }
 
-.resume:hover .expense,.resume:hover .investments,.resume:hover .balance {
+.resume h2, .resume p {
+  pointer-events: none;
+}
+
+.expense.deactive, .investments.deactive, .balance.deactive  {
   opacity: .4;
   transition: opacity 1s ease;
 }
@@ -298,14 +306,14 @@
   line-height: 39px;
 }
 
-.expense div, .investments div, .balance div {
+.expense p, .investments p, .balance p {
   color: var(--palette-5);
   font-size: 16px;
   line-height: 20px;
   display: flex;
   align-items: center;
-  
-  margin-bottom: 16px;
+  margin: 0 0 16px 0;
+  /* margin-bottom: 16px; */
 }
 .balance div {
   font-size: 24px;
@@ -436,7 +444,7 @@
 
 .transactionCard {
   width: 100%;
-  max-width: 328px;
+  /* max-width: 328px; */
   height: 96px;
   display: flex;
   flex-flow: column;

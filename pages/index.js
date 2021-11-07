@@ -106,6 +106,7 @@ export default function Home() {
   const [active, SetActive] = useState(false);
   const [form, setForm] = useState({})
   const [mode, setMode] = useState('graph');
+  const [section, setSection] = useState(false);
   const [transactions, setTransactions] = useState(transactionsPreloaded);
   const dollarsFormat = Intl.NumberFormat('en-US');
 
@@ -113,8 +114,6 @@ export default function Home() {
   const handleExit = (values) => {
     setForm(values);
     setMode('graph')
-    console.log('values')
-    console.log(values)
     setTransactions([{
         price: values.price,
         description: values.name,
@@ -124,12 +123,32 @@ export default function Home() {
     ]);
   }
 
+  const handleSection = (e, value) => {
+    if (value === section) {
+      setSection(false)
+      console.log('target');
+      console.log(e);
+      console.log(e.target);
+      e.target.parentNode.focus();
+
+    }
+    else
+      setSection(value);
+  }
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
+
   const randomize = () => {
     setTransactions(generateManyTransactions(mockLength))
   }
 
-  console.log('transactions');
-  console.log(transactions);
   return (
     <div className={styles.container}>
       <Head>
@@ -156,7 +175,7 @@ export default function Home() {
             <Fragment>
             {/* // <Chart types={types} randomize={randomize} transactions={transactions} /> */}
               {/* <LineChart types={types} randomize={randomize} transactions={transactions} /> */}
-              <AreaChart types={types} randomize={randomize} transactions={transactions} />
+              <AreaChart types={types} randomize={randomize} transactions={transactions} section={section} />
               {/* <AreaChart types={[types[0]]} randomize={randomize} transactions={transactions} lineColor={lineColors[0]} /> */}
               {/* <AreaChart types={[types[1]]} randomize={randomize} transactions={transactions} lineColor={lineColors[1]} /> */}
               {/* <AreaChart types={[types[0]]} randomize={randomize} transactions={transactions} lineColor={lineColors[2]} /> */}
@@ -171,17 +190,17 @@ export default function Home() {
             {/* Resumen */}
             <div className={styles.resume}>
               {/* <label>Resume</label> */}
-                <div className={styles.expense}>
-                  <h3>20.000</h3>
-                  <div>Expenses</div>
+                <div className={`${styles.expense} ${section && section !== 'expense' && styles.deactive}`} onClick={(e) => handleSection(e, 'expense')}>
+                  <h3>{formatter.format(transactions.reduce((acc, i) => i.type ==='expense' ? acc = acc + i.price : acc,0))}</h3>
+                  <p>Expenses</p>
                 </div>
-                <div className={styles.investments}>
-                  <h3>5.000</h3>
-                  <div>Investments</div>
+                <div className={`${styles.investments}  ${section && section !== 'investment' && styles.deactive}`} onClick={(e) => handleSection(e, 'investment')}>
+                  <h3>{formatter.format(transactions.reduce((acc, i) => i.type ==='investment' ? acc = acc + i.price : acc,0))}</h3>
+                  <p>Investments</p>
                 </div>
-                <div className={styles.balance}>
-                  <h3>18.000</h3>
-                  <div>Balance</div>
+                <div className={`${styles.balance}  ${section && section !== 'balance' && styles.deactive}`} onClick={(e) => handleSection(e, 'balance')}>
+                  <h3>{formatter.format(transactions.reduce((acc, i) => i.type ==='balance' ? acc = acc + i.price : acc,0))}</h3>
+                  <p>Balance</p>
                 </div>
             </div>
             {/* Lista de transacciones */}

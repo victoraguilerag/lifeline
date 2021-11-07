@@ -112,7 +112,7 @@ const lineColors = [
 const chart = (props) => {
 //   static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
 
-    const { randomize, transactions, types, lineColor } = props;
+    const { randomize, transactions, types, lineColor, section } = props;
     console.log(transactions)
     // const newData = transactions.reduce(reduceTrans, {});
     const dataset = transactions.reduce(reduceTrans, {});
@@ -143,12 +143,13 @@ const chart = (props) => {
     // console.log(Object.keys(dataset));
     // const edd = types.map(type => dataset[type])
     // console.log(edd);
+    console.log(section);
     return (
     <div 
         className={styles.container}
-        onClick={randomize}
+        // onClick={randomize}
     >
-      <ResponsiveContainer width="100%" aspect="1.5">
+      <ResponsiveContainer width="100%" height="34%" className={styles.rechartsResponsive}>
         <ComposedChart
         //   width={1000}
         //   height={300}
@@ -176,7 +177,7 @@ const chart = (props) => {
           {/* <Tooltip /> */}
           {/* <Legend /> */}
 
-        {types.map((type, i) => (
+        {types.map((type, i) => ((section && type === section) || !section) && (
             <Fragment key={type}>
                 {/* <Line dataKey={type} stroke={lineColors[i]} strokeWidth={5} type="natural" layout="vertical" /> */}
                 <Area type="basis" dataKey={type} stroke={lineColor || lineColors[i]} fill={lineColor || lineColors[i]} />
