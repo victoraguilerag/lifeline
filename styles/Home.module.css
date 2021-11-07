@@ -225,6 +225,20 @@
   margin-bottom: 32px;
 }
 
+.resume div {
+  scroll-margin-top: 32px; 
+  scroll-snap-align: start;
+}
+
+.resume .expense {
+  border-radius: 16px 16px 0 0;
+}
+
+.resume .balance {
+  margin-bottom: 32px;
+  border-radius: 0 0 16px 16px;
+}
+
 .resume label, .transactionLabel {
   font-family: Rambla;
   font-style: normal;
@@ -268,12 +282,12 @@
   transition: box-shadow 1s linear;
 }
 
-.resumeChart:hover .expense,.resumeChart:hover .investments,.resumeChart:hover .balance {
+.resume:hover .expense,.resume:hover .investments,.resume:hover .balance {
   opacity: .4;
   transition: opacity 1s ease;
 }
 
-.resumeChart:hover .expense:hover, .resumeChart:hover .investments:hover, .resumeChart:hover .balance:hover {
+.resume:hover .expense:hover, .resume:hover .investments:hover, .resume:hover .balance:hover {
   opacity: 1;
   transition: opacity 1s ease;
 }
@@ -359,7 +373,7 @@
   fill: var(--palette-7);
 }
 
-.transactionCard svg.icon-investments {
+.transactionCard svg.icon-investment {
   fill: var(--palette-4);
 }
 
@@ -478,7 +492,7 @@
   background: var(--palette-6);
 }
 
-.transactionCard.color-investments::after {
+.transactionCard.color-investment::after {
   background: var(--palette-4);
 }
 

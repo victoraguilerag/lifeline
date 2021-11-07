@@ -128,6 +128,7 @@ export default function Home() {
     setTransactions(generateManyTransactions(mockLength))
   }
 
+  console.log('transactions');
   console.log(transactions);
   return (
     <div className={styles.container}>
@@ -170,7 +171,6 @@ export default function Home() {
             {/* Resumen */}
             <div className={styles.resume}>
               {/* <label>Resume</label> */}
-              <div className={styles.resumeChart}>
                 <div className={styles.expense}>
                   <h3>20.000</h3>
                   <div>Expenses</div>
@@ -183,7 +183,6 @@ export default function Home() {
                   <h3>18.000</h3>
                   <div>Balance</div>
                 </div>
-              </div>
             </div>
             {/* Lista de transacciones */}
             <div className={styles.transactions}>
