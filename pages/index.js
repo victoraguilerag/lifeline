@@ -3,13 +3,13 @@ import { Fragment, useState } from 'react'
 import faker from 'faker'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import UserIcon from './icons/user'
-import PlusIcon from './icons/plus'
-import Form from './components/form'
-import Icons from './components/icons';
-import Chart from './components/chart';
-import LineChart from './components/lineChart';
-import AreaChart from './components/areaChart';
+import UserIcon from '../components/icons/user'
+import PlusIcon from '../components/icons/plus'
+import Form from '../components/form'
+import Icons from '../components/icons';
+// import Chart from '../components/chart';
+// import LineChart from '../components/lineChart';
+import AreaChart from '../components/areaChart';
 
 
 const icons = [

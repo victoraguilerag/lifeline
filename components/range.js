@@ -1,6 +1,6 @@
 import { useState} from 'react';
 // import styles from '../../styles/Form.module.css'
-import homeStyles from '../../styles/Home.module.css'
+import homeStyles from '../styles/Home.module.css'
 
 function Form ({
     onChange,

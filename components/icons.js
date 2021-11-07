@@ -1,9 +1,9 @@
-import Camera from '../icons/camera';
-import Pets from '../icons/pets';
-import Restaurant from '../icons/restaurant';
-import Savings from '../icons/savings';
-import Wallet from '../icons/wallet';
-import Celebration from '../icons/celebration';
+import Camera from './icons/camera';
+import Pets from './icons/pets';
+import Restaurant from './icons/restaurant';
+import Savings from './icons/savings';
+import Wallet from './icons/wallet';
+import Celebration from './icons/celebration';
 
 const Icons = ({ icon, handleIcon, active, type }) => {
     switch(icon) {

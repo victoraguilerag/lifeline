@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
-import styles from '../../styles/Form.module.css'
-import homeStyles from '../../styles/Home.module.css'
+import styles from '../styles/Form.module.css'
+import homeStyles from '../styles/Home.module.css'
 import RangeInput from './range';
 import Icons from './icons';
 

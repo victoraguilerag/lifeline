@@ -1,7 +1,7 @@
 import React, { Fragment, PureComponent } from 'react';
 import moment from 'moment';
 import styles from '../../styles/Chart.module.css';
-import { Bar, ComposedChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Bar, LineChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 const reduceTrans = (acc, {
@@ -159,7 +159,7 @@ export default class Example extends PureComponent {
 //   static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
 
   render() {
-    const { randomize, transactions, types, lineColor } = this.props;
+    const { randomize, transactions, types } = this.props;
     console.log(transactions)
     // const newData = transactions.reduce(reduceTrans, {});
     const dataset = transactions.reduce(reduceTrans, {});
@@ -167,17 +167,9 @@ export default class Example extends PureComponent {
     console.log(Object.keys(dataset));
     const newData = types.map(type => dataset[type])
     console.log(newData);
-    let lastType = {};
     const edd = newData.flatMap(el => el.data.map(unit => {
-        // types.map(type => unit[type] = 3)
-
-        types.map(type => {
-          if (!lastType[type]) lastType[type] = 0
-          unit[type] = lastType[type]
-        })
-
+        types.map(type => unit[type] = 3)
         unit[el.label] = unit.price
-
         return ({
         ...unit,
         type: el.label,
@@ -195,39 +187,29 @@ export default class Example extends PureComponent {
         className={styles.container}
         onClick={randomize}
     >
-      <ResponsiveContainer width="100%" aspect="1.5">
-        <ComposedChart
+      <ResponsiveContainer width="100%" aspect="1">
+        <LineChart
         //   width={1000}
         //   height={300}
           data={sortedEdd}
           margin={{
             top: 5,
             right: 0,
-            left: -30,
+            left: 5,
             bottom: 0,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis} /> */}
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis}/> */}
-          {/* <YAxis dataKey="price" margin={{left: 50}}/> */}
-          <Tooltip content={({ name, active, payload, label }) => {
-            console.log(payload);
-            console.log(name)
-            return (
-              <div className={styles.tooltip}>
-                {payload && payload[0] && payload[0].payload.description}
-                {/* {payload.map(item => item.payload[item.name])} */}
-              </div>
-          )}}/>
-          {/* <Tooltip /> */}
-          {/* <Legend /> */}
+          {/* <YAxis dataKey="price"/> */}
+          <Tooltip />
+          <Legend />
 
         {types.map((type, i) => (
-            <Fragment>
-                {/* <Line dataKey={type} stroke={lineColors[i]} strokeWidth={5} type="natural" layout="vertical" /> */}
-                <Area type="basis" dataKey={type} stroke={lineColor || lineColors[i]} fill={lineColor || lineColors[i]} />
-                <Line dataKey="status" stroke={lineColors[i]} strokeWidth={5} type="basis" layout="vertical" />
+            <Fragment key={type}>
+                <Line dataKey={type} stroke={lineColors[i]} strokeWidth={5} type="natural" layout="vertical" />
+                <Area type="natural" dataKey={type} stroke={lineColors[i]} fill={lineColors[i]} />
             </Fragment>
         ))}
 
@@ -242,7 +224,8 @@ export default class Example extends PureComponent {
           {/* <Line type="monotone" dataKey="price" stroke="#C32BAD" activeDot={{ r: 8 }} />
           <Line type="monotone" dataKey="description" stroke="#7027A0" />
           <Line type="monotone" dataKey="type" stroke="#C32BAD" /> */}
-        </ComposedChart>
+        </LineChart>
+
       </ResponsiveContainer>
     </div>
     );
