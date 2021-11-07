@@ -1,0 +1,58 @@
+.container :global {
+  --palette-1: #eaeaea;
+  --palette-2: #0070f3;
+  --palette-3: #6C6969;
+  --palette-4: #7027A0;
+  --palette-5: white;
+  --palette-6: #C32BAD;
+  --palette-7: #1DB9C3;
+  --palette-8: #5A5858;
+  --palette-extra-1: lightgray;
+  --palette-extra-2: #fff6e5;
+  --palette-extra-3: #BAB2B2;
+}
+
+.form {
+  animation: enter 1s ease forwards;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.step {
+  height: 100vh;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 64px;
+  /* padding: 0 24px; */
+}
+
+.price {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 39px;
+  color: var(--palette-8);
+  border: none;
+  outline: none;
+}
+
+.divider {
+  width: 100%;
+  height: 0px;
+  opacity: .6;
+  margin-bottom: 24px;
+  border: 1px solid var(--palette-8);
+  border-radius: 8px;
+  scroll-snap-align: start;
+  scroll-margin-top: 20vh;
+}

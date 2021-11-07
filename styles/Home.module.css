@@ -1,0 +1,555 @@
+.container {
+  min-height: 100vh;
+  padding: 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  height: 94vh;
+  margin-top: 56px;
+
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.container :global {
+  --palette-1: #eaeaea;
+  --palette-2: #0070f3;
+  --palette-3: #6C6969;
+  --palette-4: #7027A0;
+  --palette-5: white;
+  --palette-6: #C32BAD;
+  --palette-7: #1DB9C3;
+  --palette-8: #5A5858;
+  --palette-extra-1: lightgray;
+  --palette-extra-2: #fff6e5;
+  --palette-extra-3: #BAB2B2;
+}
+
+.container main {
+  height: 100vh;
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  align-items: flex-start;
+  padding-top: 20vh;
+  scroll-snap-type: y mandatory;
+}
+
+.container main.form {
+  overflow: scroll;
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .container main {
+    display: flex;
+    padding: 0;
+    min-height: 30vh;
+    max-height: none;
+
+    box-shadow: 0 7px 6px 1px rgb(0 0 0 / 10%);
+    z-index: 2;
+  }
+
+  aside.main {
+    max-width: none;
+  }
+}
+
+.header {
+  height: 56px;
+  width: 100%;
+  padding: 0 16px;
+  background-color: var(--palette-7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Pacifico;
+
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
+
+.header h1 {
+  /* margin-left: 24px; */
+  color: var(--palette-1);
+}
+
+.header .menu {
+  padding: 0;
+  position: relative;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0,0,0,.4);
+}
+
+.header .menu svg  {
+  margin: 0;
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 32px;
+}
+.header .menu svg path {
+  fill: var(--palette-8);
+}
+
+.main {
+  max-width: 360px;
+  background: var(--palette-extra-2);
+  box-shadow: inset 0 0 5px rgb(0 0 0 / 5%);
+  padding: 32px 16px 10vh;
+  width: 100%;
+  scroll-snap-type: y mandatory;
+  scroll-margin-top: 32px;
+  max-height: 100vh;
+  overflow: scroll;
+}
+
+.footer {
+  display: none;
+  width: 100%;
+  height: 100px;
+  border-top: 1px solid var(--palette-1);
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+}
+
+.footer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.title a {
+  color: var(--palette-2);
+  text-decoration: none;
+}
+
+.title a:hover,
+.title a:focus,
+.title a:active {
+  text-decoration: underline;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 4rem;
+}
+
+.title,
+.description {
+  text-align: center;
+}
+
+.description {
+  line-height: 1.5;
+  font-size: 1.5rem;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin-top: 3rem;
+}
+
+.card {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid var(--palette-1);
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  width: 45%;
+}
+
+.card:hover,
+.card:focus,
+.card:active {
+  color: var(--palette-2);
+  border-color: var(--palette-2);
+}
+
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.logo {
+  height: 1em;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+.resume {
+  border-radius: 8px;
+  scroll-margin-top: 32px;
+  scroll-snap-align: start;
+}
+
+.resumeChart {
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.resume label, .transactionLabel {
+  font-family: Rambla;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 29px;
+  display: flex;
+  align-items: flex-end;
+  
+  color: var(--palette-3);
+  margin-left: 16px;
+  margin-bottom: 8px;
+  scroll-margin-top: 32px;
+  scroll-snap-align: start;
+
+  opacity: 1;
+  font-size: 16px;
+
+}
+
+.expense, .investments, .balance {
+  width: 100%;
+  height: 184px;
+  background-color: var(--palette-6);
+
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+
+  padding-left: 16px;
+
+  font-size: Rambla;
+  box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: box-shadow .2s ease;
+  transition: opacity 1s ease;
+}
+
+.expense:hover, .investments:hover, .balance:hover {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.6);
+  transition: box-shadow 1s linear;
+}
+
+.resumeChart:hover .expense,.resumeChart:hover .investments,.resumeChart:hover .balance {
+  opacity: .4;
+  transition: opacity 1s ease;
+}
+
+.resumeChart:hover .expense:hover, .resumeChart:hover .investments:hover, .resumeChart:hover .balance:hover {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+.expense h3, .investments h3, .balance h3 {
+  margin: 0;
+  color: var(--palette-5);
+  font-size: 32px;
+  line-height: 39px;
+}
+
+.expense div, .investments div, .balance div {
+  color: var(--palette-5);
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  
+  margin-bottom: 16px;
+}
+.balance div {
+  font-size: 24px;
+}
+.investments {
+  background: var(--palette-4);
+  height: 103px;
+}
+
+.balance {
+  background: var(--palette-7);
+  height: 166px;
+}
+
+.state {
+  position: fixed;
+  width: 30vw;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  right: -88px;
+  top: 16%;
+  transform: scale(.6);
+}
+
+.state .options .transactionCard {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.state .options .transaction {
+  position: relative;
+}
+
+.icons {
+  display: grid;
+  grid-gap: 64px;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  margin-top: 64px;
+}
+
+.iconText {
+  grid-column: 1 / 4;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.icons svg {
+  width: 48px;
+  height: 48px;
+  fill: #666;
+  cursor: pointer;
+  transition: fill 1s ease;
+}
+
+.icons svg:hover {
+  transition: fill 1s ease;
+  fill: lightseagreen;
+}
+
+.transactionCard svg.icon-balance {
+  fill: var(--palette-7);
+}
+
+.transactionCard svg.icon-investments {
+  fill: var(--palette-4);
+}
+
+.transactionCard svg.icon-expense {
+  fill: var(--palette-6);
+}
+
+.transaction svg {
+  position: absolute;
+  right: 24px;
+  top: 32px;
+  fill: lightseagreen;
+}
+
+
+
+
+
+.transaction {
+  margin-bottom: 24px;
+  min-width: 328px;
+  position: relative;
+}
+
+.transaction.deactive {
+  opacity: .5;
+  transition: opacity 1s ease;
+}
+
+.options {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  /* padding-bottom: 40vh; */
+}
+
+.options .rangeLabel {
+  font-size: 64px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.options input {
+  width: 100%;
+}
+
+.options .transactionCard {
+  box-shadow: 0 0 2px 0px rgba(0,0,0,.2);
+}
+
+.main .transactionCard {
+  scroll-margin-top: 64px;
+  scroll-snap-align: start;
+}
+
+.transactionCard {
+  width: 100%;
+  max-width: 328px;
+  height: 96px;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25); */
+  box-shadow: 0 0 2px 0px rgba(0,0,0,.2);
+  padding: 0 0 0 16px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--palette-5);
+
+  cursor: pointer;
+  transition: box-shadow .5s ease;
+
+  text-transform: capitalize;
+}
+
+.transactionCard:first {
+  scroll-margin-top: 0;
+  scroll-snap-align: unset;
+}
+
+.transactionCard:hover {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.transactionCard .price {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 39px;
+  color: var(--palette-8);
+}
+.transactionCard .description {
+  min-height: 16px;
+  font-size: 16px;
+  font-style: normal;
+  color: var(--palette-8);
+  margin-bottom: 8px;
+}
+
+.transactionCard::after {
+  content: "";
+  width: 16px;
+  position: absolute;
+  right: 0;
+  height: 100%;
+}
+
+.transactionCard.color-expense::after {
+  background: var(--palette-6);
+}
+
+.transactionCard.color-investments::after {
+  background: var(--palette-4);
+}
+
+.transactionCard.color-balance::after {
+  background: var(--palette-7);
+}
+
+
+
+
+.divider {
+  width: 100%;
+  height: 0px;
+  opacity: .6;
+  margin-bottom: 24px;
+
+  border: 2px solid var(--palette-extra-3);
+  border-radius: 8px;
+}
+
+.addTransaction  {
+  width: 160px;
+  height: 56px;
+  background: transparent;
+  position: fixed;
+  bottom: 16px;
+  right: 32px;
+  border-radius: 4px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: none;
+  transition: background 1s ease;
+  pointer-events: none;
+}
+
+.addTransaction:hover {
+  background: rgba(112,39,160,.8);
+  transition: background 1s ease;
+}
+
+.addTransaction:hover .actionLabel {
+  color: #FFFFFF;
+
+}
+.actionLabel {
+  width: 100px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+
+  margin-left: 8px;
+  color: transparent;
+
+}
+
+.action {
+  cursor: pointer;
+  height: 64px;
+  width: 64px;
+  opacity: 1;
+  border-radius: 100%;
+  box-shadow: none;
+  border: none;
+  background-color: var(--palette-4);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  pointer-events: all;
+  padding: 0;
+  right: -24px;
+  position: absolute;
+}

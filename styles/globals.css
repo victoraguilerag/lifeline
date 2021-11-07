@@ -1,0 +1,32 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+body {
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+:root {
+  --palette-1: brown;
+  --palette-2: brown;
+  --palette-3: brown;
+  --palette-4: brown;
+  --palette-5: brown;
+  --palette-extra-1: lightgray;
+  --palette-extra-2: fff6e5;
+}
