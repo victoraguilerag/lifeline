@@ -121,12 +121,14 @@ const chart = (props) => {
     const newData = types.map(type => dataset[type])
     console.log(newData);
     let lastType = {};
-    const edd = newData.flatMap(el => el.data.map(unit => {
+    const edd = newData.flatMap((el, i) => el.data.map((unit, j) => {
         // types.map(type => unit[type] = 3)
 
         types.map(type => {
           if (!lastType[type]) lastType[type] = 0
           unit[type] = lastType[type]
+          if (i === 2 && j == 0)
+          unit.selected = true;
         })
 
         unit[el.label] = unit.price
@@ -143,7 +145,8 @@ const chart = (props) => {
     // console.log(Object.keys(dataset));
     // const edd = types.map(type => dataset[type])
     // console.log(edd);
-    console.log(section);
+    console.log(types);
+    console.log("types");
     return (
     <div 
         className={styles.container}
@@ -174,7 +177,11 @@ const chart = (props) => {
                 {/* {payload.map(item => item.payload[item.name])} */}
               </div>
           )}}/>
-          <Brush dataKey="date" />
+          <Brush 
+            dataKey="date"
+            tickFormatter={(value) => (new Date(value)).toLocaleDateString("DD-MM")}
+            travellerWidth={40}
+          />
           {/* <Tooltip /> */}
           {/* <Legend /> */}
 
@@ -185,6 +192,16 @@ const chart = (props) => {
                 <Line dataKey="status" stroke={lineColors[i]} strokeWidth={5} type="basis" layout="vertical" />
             </Fragment>
         ))}
+{/* 
+        <Line
+         dataKey="selected"
+         data={sortedEdd[0]}
+         stroke={lineColors[1]}
+         strokeWidth={5}
+         type="basis"
+         layout="vertical"
+         label
+        /> */}
 
 
         {/* {[...types[0]].map((e, i) => {
