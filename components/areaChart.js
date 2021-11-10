@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { ComposedChart, Area, Line, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Brush, ComposedChart, Area, Line, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import styles from '../styles/Chart.module.css';
 
 
@@ -165,7 +165,7 @@ const chart = (props) => {
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis} /> */}
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis}/> */}
           {/* <YAxis dataKey="price" margin={{left: 50}}/> */}
-          <Tooltip content={({ name, active, payload, label }) => {
+          <Tooltip active={true} content={({ name, active, payload, label }) => {
             console.log(payload);
             console.log(name)
             return (
@@ -174,6 +174,7 @@ const chart = (props) => {
                 {/* {payload.map(item => item.payload[item.name])} */}
               </div>
           )}}/>
+          <Brush dataKey="date" />
           {/* <Tooltip /> */}
           {/* <Legend /> */}
 
