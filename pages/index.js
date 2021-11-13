@@ -83,12 +83,16 @@ const mockLength = 20;
 const generateManyTransactions = (quantity) => {
   const transactions = [];
   for (let i = 0;i < quantity; i++) {
+    const type = faker.random.arrayElement(types)
     transactions.push({
-      type: faker.random.arrayElement(types),
+      type,
       description: faker.random.words(),
-      price: faker.datatype.number({
+      price: type === 'balance' ? faker.datatype.number({
+        'min': 100,
+        'max': 100
+      }) : faker.datatype.number({
         'min': 2,
-        'max': 10000
+        'max': 10
       }),
       date: faker.date.past(),
       icon: faker.random.arrayElement(icons)
