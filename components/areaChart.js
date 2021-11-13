@@ -140,7 +140,7 @@ const chart = (props) => {
         type: el.label,
     })})})
     const sortedEdd = edd.sort((a, b) => a.date - b.date)
-    let lifeline = 50000
+    let lifeline = 0
     const eddLine = sortedEdd.map(unit => {
       if (unit.type === 'expense')
         lifeline = lifeline - unit.price;

@@ -88,8 +88,8 @@ const generateManyTransactions = (quantity) => {
       type,
       description: faker.random.words(),
       price: type === 'balance' ? faker.datatype.number({
-        'min': 100,
-        'max': 100
+        'min': 5,
+        'max': 30
       }) : faker.datatype.number({
         'min': 2,
         'max': 10
