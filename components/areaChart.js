@@ -121,9 +121,11 @@ const chart = (props) => {
     const newData = types.map(type => dataset[type])
     console.log(newData);
     let lastType = {};
-    const edd = newData.flatMap((el, i) => el.data.map((unit, j) => {
+    const edd = newData.flatMap((el, i) => {
+      let lifeline = 0;
+      return el.data.map((unit, j) => {
         // types.map(type => unit[type] = 3)
-
+          
         types.map(type => {
           if (!lastType[type]) lastType[type] = 0
           unit[type] = lastType[type]
@@ -136,8 +138,23 @@ const chart = (props) => {
         return ({
         ...unit,
         type: el.label,
-    })}))
+    })})})
     const sortedEdd = edd.sort((a, b) => a.date - b.date)
+    let lifeline = 0
+    const eddLine = sortedEdd.map(unit => {
+      if (unit.type === 'expense')
+        lifeline = lifeline - unit.price;
+
+      if (unit.type === 'investments')
+        lifeline = lifeline - unit.price;
+
+      if (unit.type === 'balance')
+        lifeline = lifeline + unit.price;
+      return {
+        ...unit,
+        lifeline
+      }
+    })
     console.log(edd);
     // console.log(transactions);
     // const dataset = transactions.reduce(reduceTrans, {});
@@ -156,7 +173,7 @@ const chart = (props) => {
         <ComposedChart
         //   width={1000}
         //   height={300}
-          data={sortedEdd}
+          data={eddLine}
           margin={{
             top: 5,
             right: 0,
@@ -168,15 +185,7 @@ const chart = (props) => {
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis} /> */}
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis}/> */}
           {/* <YAxis dataKey="price" margin={{left: 50}}/> */}
-          <Tooltip active={true} content={({ name, active, payload, label }) => {
-            console.log(payload);
-            console.log(name)
-            return (
-              <div className={styles.tooltip}>
-                {payload && payload[0] && payload[0].payload.description}
-                {/* {payload.map(item => item.payload[item.name])} */}
-              </div>
-          )}}/>
+          <Tooltip active={true}/>
           <Brush 
             dataKey="date"
             tickFormatter={(value) => (new Date(value)).toLocaleDateString("DD-MM")}
@@ -185,11 +194,13 @@ const chart = (props) => {
           {/* <Tooltip /> */}
           {/* <Legend /> */}
 
+        <Line dataKey="lifeline" stroke="rgb(200,20,200)" strokeWidth={2} type="basis" layout="vertical" />
+
         {types.map((type, i) => ((section && type === section) || !section) && (
             <Fragment key={type}>
                 {/* <Line dataKey={type} stroke={lineColors[i]} strokeWidth={5} type="natural" layout="vertical" /> */}
                 <Area type="basis" dataKey={type} stroke={lineColor || lineColors[i]} fill={lineColor || lineColors[i]} />
-                <Line dataKey="status" stroke={lineColors[i]} strokeWidth={5} type="basis" layout="vertical" />
+                {/* <Line dataKey="status" stroke={lineColors[i]} strokeWidth={5} type="basis" layout="vertical" /> */}
             </Fragment>
         ))}
 {/* 

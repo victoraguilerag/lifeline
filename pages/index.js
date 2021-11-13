@@ -106,7 +106,8 @@ export default function Home() {
   const [active, SetActive] = useState(false);
   const [form, setForm] = useState({})
   const [mode, setMode] = useState('graph');
-  const [section, setSection] = useState(false);
+  const [section, setSection] = useState('');
+  // const [filter, setFilter] = useState('');
   const [transactions, setTransactions] = useState(transactionsPreloaded);
   const dollarsFormat = Intl.NumberFormat('en-US');
 
@@ -205,18 +206,19 @@ export default function Home() {
             </div>
             {/* Lista de transacciones */}
             <div className={styles.transactions}>
-              <div className={styles.transaction}>
-                <div className={styles.transactionLabel}>Ultimo movimiento</div>
-                <div className={`${styles.transactionCard} ${styles[`color-${transactions[0].type}`]}`}>
-                  <div className={styles.price}>{dollarsFormat.format(transactions[0].price)}</div>
-                  <div className={styles.description}>{transactions[0].description}</div>
-                  <Icons icon={transactions[0].icon} active={true} type={transactions[0].type} />
-                </div>
-              </div>
+                  <div className={styles.transaction}>
+                    <div className={styles.transactionLabel}>Ultimo movimiento</div>
+                    <div className={`${styles.transactionCard} ${styles[`color-${transactions[0].type}`]}`}>
+                      <div className={styles.price}>{dollarsFormat.format(transactions[0].price)}</div>
+                      <div className={styles.description}>{transactions[0].description}</div>
+                      <Icons icon={transactions[0].icon} active={true} type={transactions[0].type} />
+                    </div>
+                  </div>
               <div className={styles.divider} />
               {
                 transactions
                 .slice(1)
+                .filter(e => !section.length || e.type === section)
                 .map((transaction, i) => (
                   <div key={transaction.description + i} className={styles.transaction}>
                     <div className={`${styles.transactionCard} ${styles[`color-${transaction.type}`]}`}>
