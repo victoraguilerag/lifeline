@@ -37,11 +37,11 @@
   overflow: hidden;
   align-items: flex-start;
   padding-top: 56px;
-  scroll-snap-type: y mandatory;
+  /* scroll-snap-type: y mandatory; */
 }
 
 .container aside {
-  padding-top: 56px;
+  /* padding-top: 56px; */
 }
 
 .container main.form {
@@ -117,8 +117,8 @@
   box-shadow: inset 0 0 5px rgb(0 0 0 / 5%);
   padding: 32px 16px 10vh;
   width: 100%;
-  scroll-snap-type: y mandatory;
-  scroll-margin-top: 32px;
+  /* scroll-snap-type: y mandatory; */
+  /* scroll-margin-top: 32px; */
   max-height: 100vh;
   overflow: scroll;
 }
@@ -231,8 +231,8 @@
 }
 
 .resume div {
-  scroll-margin-top: 32px; 
-  scroll-snap-align: start;
+  /* scroll-margin-top: 32px;  */
+  /* scroll-snap-align: start; */
 }
 
 .resume .expense {
@@ -260,8 +260,8 @@
   color: var(--palette-3);
   margin-left: 16px;
   margin-bottom: 8px;
-  scroll-margin-top: 32px;
-  scroll-snap-align: start;
+  /* scroll-margin-top: 32px; */
+  /* scroll-snap-align: start; */
 
   opacity: 1;
   font-size: 16px;
@@ -388,8 +388,8 @@
   justify-content: center;
   color: white;
   height: 72px;
-  scroll-margin-top: 64px;
-  scroll-snap-align: start;
+  /* scroll-margin-top: 64px; */
+  /* scroll-snap-align: start; */
 }
 .transactionCard.featured .price {
   color: white;
@@ -427,8 +427,10 @@
 
 .transaction {
   margin-bottom: 24px;
-  min-width: 328px;
+  /* min-width: 328px; */
   position: relative;
+  /* scroll-margin-top: 32px;  */
+  /* scroll-snap-align: start; */
 }
 
 .transaction.deactive {
@@ -463,8 +465,8 @@
 }
 
 .main .transactionCard {
-  scroll-margin-top: 64px;
-  scroll-snap-align: start;
+  /* scroll-margin-top: 64px; */
+  /* scroll-snap-align: start; */
 }
 
 .transactionCard {
@@ -490,8 +492,8 @@
 }
 
 .transactionCard:first {
-  scroll-margin-top: 0;
-  scroll-snap-align: unset;
+  /* scroll-margin-top: 0; */
+  /* scroll-snap-align: unset; */
 }
 
 .transactionCard:hover {

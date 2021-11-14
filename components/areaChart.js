@@ -175,7 +175,7 @@ const Chart = (props) => {
     return (
     <div 
         className={styles.container}
-        // onClick={randomize}
+        onClick={randomize}
     >
       <ResponsiveContainer width="100%" height="34%" className={styles.rechartsResponsive}>
         <ComposedChart
@@ -194,11 +194,11 @@ const Chart = (props) => {
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis}/> */}
           {/* <YAxis dataKey="price" margin={{left: 50}}/> */}
           <Tooltip active={true}/>
-          <Brush 
+          {/* <Brush 
             dataKey="date"
             tickFormatter={(value) => (new Date(value)).toLocaleDateString("DD-MM")}
             travellerWidth={40}
-          />
+          /> */}
           {/* <Tooltip /> */}
           {/* <Legend /> */}
 
