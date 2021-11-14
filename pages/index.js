@@ -10,6 +10,8 @@ import Icons from '../components/icons';
 // import Chart from '../components/chart';
 // import LineChart from '../components/lineChart';
 import AreaChart from '../components/areaChart';
+import { RadialBarChart, RadialBar, Legend, Tooltip } from 'recharts';
+import Label from '../components/customLabel';
 
 
 const icons = [
@@ -113,6 +115,8 @@ export default function Home() {
   const [section, setSection] = useState('');
   // const [filter, setFilter] = useState('');
   const [transactions, setTransactions] = useState(transactionsPreloaded);
+  const [data, setData] = useState([]);
+
   const dollarsFormat = Intl.NumberFormat('en-US');
 
   const handleAdd = () => setMode('add');
@@ -154,6 +158,9 @@ export default function Home() {
     setTransactions(generateManyTransactions(mockLength))
   }
 
+  const balance = transactions.reduce((acc, i) => i.type ==='balance' ? acc = acc + i.price : acc,0);
+  const lastItem = data && data.slice(-1).pop();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -180,7 +187,7 @@ export default function Home() {
             <Fragment>
             {/* // <Chart types={types} randomize={randomize} transactions={transactions} /> */}
               {/* <LineChart types={types} randomize={randomize} transactions={transactions} /> */}
-              <AreaChart types={types} randomize={randomize} transactions={transactions} section={section} />
+              <AreaChart types={types} randomize={randomize} transactions={transactions} section={section} data={data} setData={setData} />
               {/* <AreaChart types={[types[0]]} randomize={randomize} transactions={transactions} lineColor={lineColors[0]} /> */}
               {/* <AreaChart types={[types[1]]} randomize={randomize} transactions={transactions} lineColor={lineColors[1]} /> */}
               {/* <AreaChart types={[types[0]]} randomize={randomize} transactions={transactions} lineColor={lineColors[2]} /> */}
@@ -192,6 +199,44 @@ export default function Home() {
       {
         mode !== 'add' && (
           <aside className={styles.main}>
+            {/* Lifeline */}
+            {
+              data && data.length > 1 && (
+                <div className={styles.transaction}>
+                  <div className={styles.transactionLabel}>Dinero en cuenta</div>
+                  <div className={`${styles.transactionCard} ${styles.featured}`}>
+                    <div className={styles.price}>{
+                      formatter.format(data.slice(-1).pop().lifeline)}</div>
+                    <Icons icon="coin" />
+                    
+                  </div>
+                    {/* <div className={styles.description}>Dinero en cuenta</div> */}
+                  {/* <div className={styles.radial}>
+                    <RadialBarChart 
+                    width={200} 
+                    height={200} 
+                      innerRadius="100%" 
+                      outerRadius="50%" 
+                      data={[
+                        {
+                          label: 'money',
+                          max: balance,
+                          current: lastItem.lifeline
+                        },
+                      ]} 
+                      min={0}
+                      max={balance}
+                      startAngle={240} 
+                      endAngle={-60}
+                    >
+                      <RadialBar minAngle={15} background label={<Label />} clockWise={true} fill="#ff8484" dataKey='max' />
+                      <RadialBar minAngle={15} background clockWise={true} fill="#FF5151" dataKey='current' />
+                      <Tooltip />
+                    </RadialBarChart>
+                  </div> */}
+                </div>
+              )
+            }
             {/* Resumen */}
             <div className={styles.resume}>
               {/* <label>Resume</label> */}
@@ -204,8 +249,8 @@ export default function Home() {
                   <p>Investments</p>
                 </div>
                 <div className={`${styles.balance}  ${section && section !== 'balance' && styles.deactive}`} onClick={(e) => handleSection(e, 'balance')}>
-                  <h3>{formatter.format(transactions.reduce((acc, i) => i.type ==='balance' ? acc = acc + i.price : acc,0))}</h3>
-                  <p>Balance</p>
+                  <h3>{formatter.format(balance)}</h3>
+                  <p>Ingresos</p>
                 </div>
             </div>
             {/* Lista de transacciones */}

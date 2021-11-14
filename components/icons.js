@@ -4,6 +4,7 @@ import Restaurant from './icons/restaurant';
 import Savings from './icons/savings';
 import Wallet from './icons/wallet';
 import Celebration from './icons/celebration';
+import Coin from './icons/coin';
 
 const Icons = ({ icon, handleIcon, active, type }) => {
     switch(icon) {
@@ -13,6 +14,7 @@ const Icons = ({ icon, handleIcon, active, type }) => {
         case 'savings': return <Savings active={active} onClick={() => handleIcon(icon)} color={type} />;
         case 'wallet': return <Wallet active={active} onClick={() => handleIcon(icon)} color={type} />;
         case 'celebration': return <Celebration active={active} onClick={() => handleIcon(icon)} color={type} />;
+        case 'coin': return <Coin />;
         default: return (<div />)
     }
 }

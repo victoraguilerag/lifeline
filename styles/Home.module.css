@@ -22,6 +22,7 @@
   --palette-6: #C32BAD;
   --palette-7: #1DB9C3;
   --palette-8: #5A5858;
+  --palette-9: #FF9A00;
   --palette-extra-1: lightgray;
   --palette-extra-2: #fff6e5;
   --palette-extra-3: #BAB2B2;
@@ -243,6 +244,10 @@
   border-radius: 0 0 16px 16px;
 }
 
+.radial {
+
+}
+
 .resume label, .transactionLabel {
   font-family: Rambla;
   font-style: normal;
@@ -377,6 +382,19 @@
   fill: lightseagreen;
 }
 
+.transactionCard.featured {
+  background: var(--palette-9);
+  display: flex;
+  justify-content: center;
+  color: white;
+  height: 72px;
+  scroll-margin-top: 64px;
+  scroll-snap-align: start;
+}
+.transactionCard.featured .price {
+  color: white;
+}
+
 .transactionCard svg.icon-balance {
   fill: var(--palette-7);
 }
@@ -387,6 +405,13 @@
 
 .transactionCard svg.icon-expense {
   fill: var(--palette-6);
+}
+
+.transactionCard svg.icon-coin {
+  fill: white;
+  height: 100%;
+  position: absolute;
+  top: 0;
 }
 
 .transaction svg {

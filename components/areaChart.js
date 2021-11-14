@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Brush, ComposedChart, Area, Line, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import styles from '../styles/Chart.module.css';
 
@@ -111,14 +111,15 @@ const lineColors = [
 
 const chart = (props) => {
 //   static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
-
-    const { randomize, transactions, types, lineColor, section } = props;
+  useEffect(() => {
+    const { randomize, transactions, types, lineColor, section, setData } = props;
     console.log(transactions)
     // const newData = transactions.reduce(reduceTrans, {});
     const dataset = transactions.reduce(reduceTrans, {});
     console.log(dataset);
     console.log(Object.keys(dataset));
     const newData = types.map(type => dataset[type])
+
     console.log(newData);
     let lastType = {};
     const edd = newData.flatMap((el, i) => {
@@ -164,6 +165,12 @@ const chart = (props) => {
     // console.log(edd);
     console.log(types);
     console.log("types");
+
+    setData(eddLine)
+      
+    },[])
+
+    const { randomize, transactions, types, lineColor, section, data } = props;
     return (
     <div 
         className={styles.container}
@@ -173,7 +180,7 @@ const chart = (props) => {
         <ComposedChart
         //   width={1000}
         //   height={300}
-          data={eddLine}
+          data={data}
           margin={{
             top: 5,
             right: 0,
@@ -194,7 +201,7 @@ const chart = (props) => {
           {/* <Tooltip /> */}
           {/* <Legend /> */}
 
-        <Line dataKey="lifeline" stroke="rgb(200,20,200)" strokeWidth={2} type="basis" layout="vertical" />
+        <Line dataKey="lifeline" stroke="#FF9A00" strokeWidth={2} type="basis" layout="vertical" />
 
         {types.map((type, i) => ((section && type === section) || !section) && (
             <Fragment key={type}>
