@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useState } from 'react';
+// eslint-ignore react-hooks/rules-of-hooks
+import { Fragment, useEffect } from 'react';
 import { Brush, ComposedChart, Area, Line, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import styles from '../styles/Chart.module.css';
 
@@ -109,7 +110,7 @@ const lineColors = [
 //     return (new Date(tickItem)).toLocaleDateString('es')
 // }
 
-const chart = (props) => {
+const Chart = (props) => {
 //   static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
   useEffect(() => {
     const { randomize, transactions, types, lineColor, section, setData } = props;
@@ -238,4 +239,4 @@ const chart = (props) => {
     );
 }
 
-export default chart;
+export default Chart;
