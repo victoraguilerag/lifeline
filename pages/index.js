@@ -10,6 +10,7 @@ import Icons from '../components/icons';
 // import Chart from '../components/chart';
 // import LineChart from '../components/lineChart';
 import AreaChart from '../components/areaChart';
+import ProgressBar from '../components/progressBar';
 import { RadialBarChart, RadialBar, Legend, Tooltip } from 'recharts';
 import Label from '../components/customLabel';
 
@@ -27,6 +28,22 @@ const types = [
   'expense',
   'investment',
   'balance'
+]
+
+const presupuestos = [
+  {
+    name: 'Comida',
+    period: 'week',
+    budget: 5000,
+    value: 3000,
+  },
+  {
+    name: 'fin de semanas',
+    period: 'weekly',
+    days: ['S, D'],
+    budget: 5000,
+    value: 200,
+  }
 ]
 
 // Hardcoded transactions
@@ -161,6 +178,9 @@ export default function Home() {
   const balance = transactions.reduce((acc, i) => i.type ==='balance' ? acc = acc + i.price : acc,0);
   const lastItem = data && data.slice(-1).pop();
 
+  const progress = (100 / presupuestos[0].budget) * presupuestos[0].value;
+  console.log(presupuestos[0]);
+  console.log(progress);
   return (
     <div className={styles.container}>
       <Head>
@@ -202,7 +222,7 @@ export default function Home() {
             {/* Lifeline */}
             {
               data && data.length > 1 && (
-                <div className={styles.transaction}>
+                <div className={`${styles.transaction} ${styles.primary} `}>
                   <div className={styles.transactionLabel}>Dinero en cuenta</div>
                   <div className={`${styles.transactionCard} ${styles.featured}`}>
                     <div className={styles.price}>{
@@ -237,6 +257,12 @@ export default function Home() {
                 </div>
               )
             }
+            <ProgressBar
+              name={presupuestos[0].name}
+              budget={presupuestos[0].budget}
+              progress={progress + "%"}
+              value={presupuestos[0].value}
+            />
             {/* Resumen */}
             <div className={styles.resume}>
               {/* <label>Resume</label> */}

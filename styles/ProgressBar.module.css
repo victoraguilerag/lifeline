@@ -1,0 +1,88 @@
+.progressBar {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  font-weight: bold;
+  color: dimgray;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.bar {
+  height: 64px;
+  width: 100%;
+  flex: 1;
+  background: white;
+  grid-column: 1 / 3;
+  border-radius: 8px;
+  box-shadow: 0 0 2px 0px rgb(0 0 0 / 20%);
+  margin-top: 16px;
+  position: relative;
+  cursor: pointer;
+}
+
+.name {
+  padding-left: 16px;
+}
+
+.budget {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cursor {
+  position: absolute;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3%;
+}
+
+.cursor::after {
+  content: "";
+  width: 2px;
+  height: 209%;
+  background: gray;
+  left: -52%;
+  position: absolute;
+  align-self: self-end;
+  top: 0;
+}
+
+.progress {
+  background-color: #85FFBD;
+  background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+  /* background-image: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%); */
+  height: 100%;
+
+}
+
+
+
+
+.progressValue {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 24px;
+  font-size: 20px;
+  color: dimgray;
+}
+
+.barValue {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 24px;
+  font-size: 24px;
+  color: dimgray;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  opacity: .7;
+}
