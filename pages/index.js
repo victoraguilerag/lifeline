@@ -32,10 +32,13 @@ const types = [
 
 const presupuestos = [
   {
-    name: 'Comida',
+    name: 'Gastos de la semana',
     period: 'week',
     budget: 5000,
-    value: 3000,
+    value: faker.datatype.number({
+      'min': 1000,
+      'max': 4000
+    }),
   },
   {
     name: 'fin de semanas',
@@ -179,6 +182,7 @@ export default function Home() {
   const lastItem = data && data.slice(-1).pop();
 
   const progress = (100 / presupuestos[0].budget) * presupuestos[0].value;
+  console.log("progress");
   console.log(presupuestos[0]);
   console.log(progress);
   return (
@@ -263,6 +267,7 @@ export default function Home() {
               progress={progress + "%"}
               value={presupuestos[0].value}
             />
+
             {/* Resumen */}
             <div className={styles.resume}>
               {/* <label>Resume</label> */}

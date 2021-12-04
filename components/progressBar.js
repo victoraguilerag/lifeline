@@ -1,27 +1,30 @@
-import { style } from 'd3-selection';
+import { useRef, useEffect } from 'react' 
 import styles from '../styles/ProgressBar.module.css'
 
-const progressBar = ({
+function ProgressBar({
   progress,
   value,
   name,
   budget
-}) => {
+}) {
+  useEffect(() => {
+    console.log('setting up the width');
+    ref.current.style.width = progress;
+  })
+  const ref = useRef(null)
   return (
     <div className={styles.progressBar}>
       <div className={styles.name}>{name}</div>
-      {/* <div className={styles.budget}>{budget}</div> */}
+      <div className={styles.budget}>{budget}</div>
       {/* <div style={{left: progress}} className={styles.cursor}>{value}</div> */}
       <div className={styles.bar}>
-        <div style={{width: progress}} className={styles.progress} data-progress={progress}>
+        <div ref={ref} className={styles.progress}>
           <div className={styles.progressValue}>{value}</div>
         </div>
-        <div className={styles.barValue}>
-          {budget}
-        </div>
+        {/* <div className={styles.barValue}>{budget}</div> */}
       </div>
     </div>
   )
 }
 
-export default progressBar;
+export default ProgressBar;

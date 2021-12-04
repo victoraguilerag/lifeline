@@ -28,6 +28,9 @@
 .budget {
   display: flex;
   justify-content: flex-end;
+  margin-right: 24px;
+  color: dimgray;
+  opacity: .7;
 }
 
 .cursor {
