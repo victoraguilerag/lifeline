@@ -1,14 +1,13 @@
-import { useRef, useEffect } from 'react' 
+import { useRef, useEffect } from 'react'
 import styles from '../styles/ProgressBar.module.css'
 
 function ProgressBar({
-  progress,
   value,
   name,
   budget
 }) {
   useEffect(() => {
-    console.log('setting up the width');
+    const progress = (100 / budget) * value + "%";
     ref.current.style.width = progress;
   })
   const ref = useRef(null)

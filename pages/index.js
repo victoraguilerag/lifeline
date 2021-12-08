@@ -32,9 +32,10 @@ const types = [
 
 const presupuestos = [
   {
+    id: 'week',
     name: 'Gastos de la semana',
     period: 'week',
-    budget: 5000,
+    budget: 50,
     value: faker.datatype.number({
       'min': 1000,
       'max': 4000
@@ -101,13 +102,19 @@ const lineColors = [
   '#1DB9C3'
 ]
 
+const budgets = [
+  'week',
+  ''
+]
+
 const mockLength = 20;
 const generateManyTransactions = (quantity) => {
   const transactions = [];
-  for (let i = 0;i < quantity; i++) {
+  for (let i = 0; i < quantity; i++) {
     const type = faker.random.arrayElement(types)
     transactions.push({
       type,
+      budget: type === 'expense' ? faker.random.arrayElement(budgets) : '',
       description: faker.random.words(),
       price: type === 'balance' ? faker.datatype.number({
         'min': 5,
@@ -144,20 +151,18 @@ export default function Home() {
     setForm(values);
     setMode('graph')
     setTransactions([{
-        price: values.price,
-        description: values.name,
-        type: values.type
-      },
-      ...transactions
+      price: values.price,
+      description: values.name,
+      type: values.type,
+      budget: ''
+    },
+    ...transactions
     ]);
   }
 
   const handleSection = (e, value) => {
     if (value === section) {
       setSection(false)
-      console.log('target');
-      console.log(e);
-      console.log(e.target);
       e.target.parentNode.focus();
 
     }
@@ -168,7 +173,7 @@ export default function Home() {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-  
+
     // These options are needed to round to whole numbers if that's what you want.
     //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
@@ -178,13 +183,9 @@ export default function Home() {
     setTransactions(generateManyTransactions(mockLength))
   }
 
-  const balance = transactions.reduce((acc, i) => i.type ==='balance' ? acc = acc + i.price : acc,0);
+  const balance = transactions.reduce((acc, i) => i.type === 'balance' ? acc = acc + i.price : acc, 0);
   const lastItem = data && data.slice(-1).pop();
 
-  const progress = (100 / presupuestos[0].budget) * presupuestos[0].value;
-  console.log("progress");
-  console.log(presupuestos[0]);
-  console.log(progress);
   return (
     <div className={styles.container}>
       <Head>
@@ -203,13 +204,13 @@ export default function Home() {
       <main className={mode === 'add' ? styles.form : {}}>
         {
           mode === 'add' && (
-            <Form onExit={handleExit}/>
+            <Form onExit={handleExit} />
           )
         }
         {
           mode !== 'add' && (
             <Fragment>
-            {/* // <Chart types={types} randomize={randomize} transactions={transactions} /> */}
+              {/* // <Chart types={types} randomize={randomize} transactions={transactions} /> */}
               {/* <LineChart types={types} randomize={randomize} transactions={transactions} /> */}
               <AreaChart types={types} randomize={randomize} transactions={transactions} section={section} data={data} setData={setData} />
               {/* <AreaChart types={[types[0]]} randomize={randomize} transactions={transactions} lineColor={lineColors[0]} /> */}
@@ -232,9 +233,9 @@ export default function Home() {
                     <div className={styles.price}>{
                       formatter.format(data.slice(-1).pop().lifeline)}</div>
                     <Icons icon="coin" />
-                    
+
                   </div>
-                    {/* <div className={styles.description}>Dinero en cuenta</div> */}
+                  {/* <div className={styles.description}>Dinero en cuenta</div> */}
                   {/* <div className={styles.radial}>
                     <RadialBarChart 
                     width={200} 
@@ -264,50 +265,52 @@ export default function Home() {
             <ProgressBar
               name={presupuestos[0].name}
               budget={presupuestos[0].budget}
-              progress={progress + "%"}
-              value={presupuestos[0].value}
+              value={transactions.reduce((acc, el) => {
+                el.budget === presupuestos[0].id ? acc = acc + el.price : acc;
+                return acc;
+              }, 0)}
             />
 
             {/* Resumen */}
             <div className={styles.resume}>
               {/* <label>Resume</label> */}
-                <div className={`${styles.expense} ${section && section !== 'expense' && styles.deactive}`} onClick={(e) => handleSection(e, 'expense')}>
-                  <h3>{formatter.format(transactions.reduce((acc, i) => i.type ==='expense' ? acc = acc + i.price : acc,0))}</h3>
-                  <p>Expenses</p>
-                </div>
-                <div className={`${styles.investments}  ${section && section !== 'investment' && styles.deactive}`} onClick={(e) => handleSection(e, 'investment')}>
-                  <h3>{formatter.format(transactions.reduce((acc, i) => i.type ==='investment' ? acc = acc + i.price : acc,0))}</h3>
-                  <p>Investments</p>
-                </div>
-                <div className={`${styles.balance}  ${section && section !== 'balance' && styles.deactive}`} onClick={(e) => handleSection(e, 'balance')}>
-                  <h3>{formatter.format(balance)}</h3>
-                  <p>Ingresos</p>
-                </div>
+              <div className={`${styles.expense} ${section && section !== 'expense' && styles.deactive}`} onClick={(e) => handleSection(e, 'expense')}>
+                <h3>{formatter.format(transactions.reduce((acc, i) => i.type === 'expense' ? acc = acc + i.price : acc, 0))}</h3>
+                <p>Expenses</p>
+              </div>
+              <div className={`${styles.investments}  ${section && section !== 'investment' && styles.deactive}`} onClick={(e) => handleSection(e, 'investment')}>
+                <h3>{formatter.format(transactions.reduce((acc, i) => i.type === 'investment' ? acc = acc + i.price : acc, 0))}</h3>
+                <p>Investments</p>
+              </div>
+              <div className={`${styles.balance}  ${section && section !== 'balance' && styles.deactive}`} onClick={(e) => handleSection(e, 'balance')}>
+                <h3>{formatter.format(balance)}</h3>
+                <p>Ingresos</p>
+              </div>
             </div>
             {/* Lista de transacciones */}
             <div className={styles.transactions}>
-                  <div className={styles.transaction}>
-                    <div className={styles.transactionLabel}>Ultimo movimiento</div>
-                    <div className={`${styles.transactionCard} ${styles[`color-${transactions[0].type}`]}`}>
-                      <div className={styles.price}>{dollarsFormat.format(transactions[0].price)}</div>
-                      <div className={styles.description}>{transactions[0].description}</div>
-                      <Icons icon={transactions[0].icon} active={true} type={transactions[0].type} />
-                    </div>
-                  </div>
+              <div className={styles.transaction}>
+                <div className={styles.transactionLabel}>Ultimo movimiento</div>
+                <div className={`${styles.transactionCard} ${styles[`color-${transactions[0].type}`]}`}>
+                  <div className={styles.price}>{dollarsFormat.format(transactions[0].price)}</div>
+                  <div className={styles.description}>{transactions[0].description}</div>
+                  <Icons icon={transactions[0].icon} active={true} type={transactions[0].type} />
+                </div>
+              </div>
               <div className={styles.divider} />
               {
                 transactions
-                .slice(1)
-                .filter(e => !section.length || e.type === section)
-                .map((transaction, i) => (
-                  <div key={transaction.description + i} className={styles.transaction}>
-                    <div className={`${styles.transactionCard} ${styles[`color-${transaction.type}`]}`}>
-                      <div className={styles.price}>{dollarsFormat.format(transaction.price)}</div>
-                      <div className={styles.description}>{transaction.description}</div>
-                      <Icons icon={transaction.icon} active={true} type={transaction.type} />
+                  .slice(1)
+                  .filter(e => !section.length || e.type === section)
+                  .map((transaction, i) => (
+                    <div key={transaction.description + i} className={styles.transaction}>
+                      <div className={`${styles.transactionCard} ${styles[`color-${transaction.type}`]}`}>
+                        <div className={styles.price}>{dollarsFormat.format(transaction.price)}</div>
+                        <div className={styles.description}>{transaction.description}</div>
+                        <Icons icon={transaction.icon} active={true} type={transaction.type} />
+                      </div>
                     </div>
-                  </div>
-                ))
+                  ))
               }
             </div>
             {/* New transaction button */}
