@@ -5,51 +5,51 @@ import styles from '../styles/Chart.module.css';
 
 
 const reduceTrans = (acc, {
+  description,
+  price,
+  date,
+  type: currentType
+}) => {
+  console.log(acc)
+  let type = acc[currentType]
+  // let type = acc.find(series => series.label === currentType)
+  if (!type) {
+    console.log('new type')
+    type = {
+      label: currentType, data: [],
+    }
+    acc[type] = type;
+    // acc.push(type)
+  }
+
+  console.log('validate')
+  console.log(type.data)
+  console.log(type);
+  const unit = {
     description,
-    price,
-    date,
-    type: currentType
-  }) => {
-    console.log(acc)
-    let type = acc[currentType]
-    // let type = acc.find(series => series.label === currentType)
-    if (!type) {
-      console.log('new type')
-      type = {
-        label: currentType, data: [],
-      }
-      acc[type] = type;
-      // acc.push(type)
+    date: (new Date(date)).valueOf(),
+    price
+  }
+  console.log(unit);
+  if (type?.data) {
+    type.data.push(unit)
+    const slot = acc[currentType]
+    // const slot = acc[acc.find(series => series.type === currentType)]
+    console.log(slot);
+    const updatedType = {
+      label: type.label,
+      data: type.data.sort((a, b) => a.date - b.date)
     }
-  
-    console.log('validate')
-    console.log(type.data)
-    console.log(type);
-    const unit = {
-      description,
-      date: (new Date(date)).valueOf(),
-      price
-    }
-    console.log(unit);
-    if (type?.data) {
-      type.data.push(unit)
-      const slot = acc[currentType]
-      // const slot = acc[acc.find(series => series.type === currentType)]
-      console.log(slot);
-      const updatedType = {
-        label: type.label,
-        data: type.data.sort((a, b) => a.date - b.date)
-      }
-      console.log(updatedType);
-      acc[currentType] = updatedType
-      // acc[acc.find(series => series.type === currentType)] = {
-      //   label: type.label,
-      //   data: type.data.sort((a, b) => a.date - b.date)
-      // };
-    }
-  
-    console.log(';asdas');
-    return acc
+    console.log(updatedType);
+    acc[currentType] = updatedType
+    // acc[acc.find(series => series.type === currentType)] = {
+    //   label: type.label,
+    //   data: type.data.sort((a, b) => a.date - b.date)
+    // };
+  }
+
+  console.log(';asdas');
+  return acc
 };
 
 // const reduceTrans = (acc, {
@@ -69,7 +69,7 @@ const reduceTrans = (acc, {
 //       acc[type] = type;
 //       // acc.push(type)
 //     }
-  
+
 //     console.log('validate')
 //     console.log(type.data)
 //     console.log(type);
@@ -94,15 +94,15 @@ const reduceTrans = (acc, {
 //       //   data: type.data.sort((a, b) => a.date - b.date)
 //       // };
 //     }
-  
+
 //     console.log(';asdas');
 //     return acc
 //   };
 
 const lineColors = [
-    '#C32BAD',
-    '#7027A0',
-    '#1DB9C3'
+  '#C32BAD',
+  '#7027A0',
+  '#1DB9C3'
 ]
 
 // function formatXAxis(tickItem) {
@@ -111,36 +111,34 @@ const lineColors = [
 // }
 
 const Chart = (props) => {
-//   static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
+  //   static demoUrl = 'https://codesandbox.io/s/simple-line-chart-kec3v';
   useEffect(() => {
     const { randomize, transactions, types, lineColor, section, setData } = props;
-    console.log(transactions)
     // const newData = transactions.reduce(reduceTrans, {});
     const dataset = transactions.reduce(reduceTrans, {});
-    console.log(dataset);
-    console.log(Object.keys(dataset));
     const newData = types.map(type => dataset[type])
 
-    console.log(newData);
     let lastType = {};
     const edd = newData.flatMap((el, i) => {
       let lifeline = 0;
       return el.data.map((unit, j) => {
         // types.map(type => unit[type] = 3)
-          
+
         types.map(type => {
           if (!lastType[type]) lastType[type] = 0
           unit[type] = lastType[type]
           if (i === 2 && j == 0)
-          unit.selected = true;
+            unit.selected = true;
         })
 
         unit[el.label] = unit.price
 
         return ({
-        ...unit,
-        type: el.label,
-    })})})
+          ...unit,
+          type: el.label,
+        })
+      })
+    })
     const sortedEdd = edd.sort((a, b) => a.date - b.date)
     let lifeline = 0
     const eddLine = sortedEdd.map(unit => {
@@ -157,30 +155,23 @@ const Chart = (props) => {
         lifeline
       }
     })
-    console.log(edd);
-    // console.log(transactions);
     // const dataset = transactions.reduce(reduceTrans, {});
-    // console.log(dataset);
-    // console.log(Object.keys(dataset));
     // const edd = types.map(type => dataset[type])
-    // console.log(edd);
-    console.log(types);
-    console.log("types");
 
     setData(eddLine)
-      
-    },[])
 
-    const { randomize, transactions, types, lineColor, section, data } = props;
-    return (
-    <div 
-        className={styles.container}
-        onClick={randomize}
+  }, [])
+
+  const { randomize, transactions, types, lineColor, section, data } = props;
+  return (
+    <div
+      className={styles.container}
+      onClick={randomize}
     >
-      <ResponsiveContainer width="100%" height="34%" className={styles.rechartsResponsive}>
+      <ResponsiveContainer width="100%" height="100%" className={styles.rechartsResponsive}>
         <ComposedChart
-        //   width={1000}
-        //   height={300}
+          //   width={1000}
+          //   height={300}
           data={data}
           margin={{
             top: 5,
@@ -193,7 +184,7 @@ const Chart = (props) => {
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis} /> */}
           {/* <XAxis dataKey="date" tickFormatter={formatXAxis}/> */}
           {/* <YAxis dataKey="price" margin={{left: 50}}/> */}
-          <Tooltip active={true}/>
+          <Tooltip active={true} />
           {/* <Brush 
             dataKey="date"
             tickFormatter={(value) => (new Date(value)).toLocaleDateString("DD-MM")}
@@ -202,16 +193,16 @@ const Chart = (props) => {
           {/* <Tooltip /> */}
           {/* <Legend /> */}
 
-        <Line dataKey="lifeline" stroke="#FF9A00" strokeWidth={2} type="basis" layout="vertical" />
+          <Line dataKey="lifeline" stroke="#FF9A00" strokeWidth={2} type="basis" layout="vertical" />
 
-        {types.map((type, i) => ((section && type === section) || !section) && (
+          {types.map((type, i) => ((section && type === section) || !section) && (
             <Fragment key={type}>
-                {/* <Line dataKey={type} stroke={lineColors[i]} strokeWidth={5} type="natural" layout="vertical" /> */}
-                <Area type="basis" dataKey={type} stroke={lineColor || lineColors[i]} fill={lineColor || lineColors[i]} />
-                {/* <Line dataKey="status" stroke={lineColors[i]} strokeWidth={5} type="basis" layout="vertical" /> */}
+              {/* <Line dataKey={type} stroke={lineColors[i]} strokeWidth={5} type="natural" layout="vertical" /> */}
+              <Area type="basis" dataKey={type} stroke={lineColor || lineColors[i]} fill={lineColor || lineColors[i]} />
+              {/* <Line dataKey="status" stroke={lineColors[i]} strokeWidth={5} type="basis" layout="vertical" /> */}
             </Fragment>
-        ))}
-{/* 
+          ))}
+          {/* 
         <Line
          dataKey="selected"
          data={sortedEdd[0]}
@@ -223,7 +214,7 @@ const Chart = (props) => {
         /> */}
 
 
-        {/* {[...types[0]].map((e, i) => {
+          {/* {[...types[0]].map((e, i) => {
             
             console.log(e.label)
             console.log(e.data)
@@ -236,7 +227,7 @@ const Chart = (props) => {
         </ComposedChart>
       </ResponsiveContainer>
     </div>
-    );
+  );
 }
 
 export default Chart;

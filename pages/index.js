@@ -140,12 +140,14 @@ export default function Home() {
   const [form, setForm] = useState({})
   const [mode, setMode] = useState('graph');
   const [section, setSection] = useState('');
+  const [selectedBudget, setSelectedBudget] = useState('');
   // const [filter, setFilter] = useState('');
   const [transactions, setTransactions] = useState(transactionsPreloaded);
   const [data, setData] = useState([]);
 
   const dollarsFormat = Intl.NumberFormat('en-US');
 
+  const handleSelectBudget = (e) => selectedBudget === e ? setSelectedBudget('') : setSelectedBudget(e);
   const handleAdd = () => setMode('add');
   const handleExit = (values) => {
     setForm(values);
@@ -263,8 +265,10 @@ export default function Home() {
               )
             }
             <ProgressBar
+              id={presupuestos[0].id}
               name={presupuestos[0].name}
               budget={presupuestos[0].budget}
+              handleSelect={handleSelectBudget}
               value={transactions.reduce((acc, el) => {
                 el.budget === presupuestos[0].id ? acc = acc + el.price : acc;
                 return acc;
@@ -272,36 +276,45 @@ export default function Home() {
             />
 
             {/* Resumen */}
-            <div className={styles.resume}>
-              {/* <label>Resume</label> */}
-              <div className={`${styles.expense} ${section && section !== 'expense' && styles.deactive}`} onClick={(e) => handleSection(e, 'expense')}>
-                <h3>{formatter.format(transactions.reduce((acc, i) => i.type === 'expense' ? acc = acc + i.price : acc, 0))}</h3>
-                <p>Expenses</p>
-              </div>
-              <div className={`${styles.investments}  ${section && section !== 'investment' && styles.deactive}`} onClick={(e) => handleSection(e, 'investment')}>
-                <h3>{formatter.format(transactions.reduce((acc, i) => i.type === 'investment' ? acc = acc + i.price : acc, 0))}</h3>
-                <p>Investments</p>
-              </div>
-              <div className={`${styles.balance}  ${section && section !== 'balance' && styles.deactive}`} onClick={(e) => handleSection(e, 'balance')}>
-                <h3>{formatter.format(balance)}</h3>
-                <p>Ingresos</p>
-              </div>
-            </div>
+            {
+              !selectedBudget && (
+                <div className={styles.resume}>
+                  {/* <label>Resume</label> */}
+                  <div className={`${styles.expense} ${section && section !== 'expense' && styles.deactive}`} onClick={(e) => handleSection(e, 'expense')}>
+                    <h3>{formatter.format(transactions.reduce((acc, i) => i.type === 'expense' ? acc = acc + i.price : acc, 0))}</h3>
+                    <p>Expenses</p>
+                  </div>
+                  <div className={`${styles.investments}  ${section && section !== 'investment' && styles.deactive}`} onClick={(e) => handleSection(e, 'investment')}>
+                    <h3>{formatter.format(transactions.reduce((acc, i) => i.type === 'investment' ? acc = acc + i.price : acc, 0))}</h3>
+                    <p>Investments</p>
+                  </div>
+                  <div className={`${styles.balance}  ${section && section !== 'balance' && styles.deactive}`} onClick={(e) => handleSection(e, 'balance')}>
+                    <h3>{formatter.format(balance)}</h3>
+                    <p>Ingresos</p>
+                  </div>
+                </div>
+              )
+            }
             {/* Lista de transacciones */}
             <div className={styles.transactions}>
-              <div className={styles.transaction}>
-                <div className={styles.transactionLabel}>Ultimo movimiento</div>
-                <div className={`${styles.transactionCard} ${styles[`color-${transactions[0].type}`]}`}>
-                  <div className={styles.price}>{dollarsFormat.format(transactions[0].price)}</div>
-                  <div className={styles.description}>{transactions[0].description}</div>
-                  <Icons icon={transactions[0].icon} active={true} type={transactions[0].type} />
-                </div>
-              </div>
+              {
+                (!selectedBudget ||
+                  selectedBudget === transactions[0].budget) && (
+                  <div className={styles.transaction}>
+                    <div className={styles.transactionLabel}>Ultimo movimiento</div>
+                    <div className={`${styles.transactionCard} ${styles[`color-${transactions[0].type}`]}`}>
+                      <div className={styles.price}>{dollarsFormat.format(transactions[0].price)}</div>
+                      <div className={styles.description}>{transactions[0].description}</div>
+                      <Icons icon={transactions[0].icon} active={true} type={transactions[0].type} />
+                    </div>
+                  </div>
+                )
+              }
               <div className={styles.divider} />
               {
                 transactions
                   .slice(1)
-                  .filter(e => !section.length || e.type === section)
+                  .filter(e => !section.length && !selectedBudget || !selectedBudget && e.type === section || selectedBudget && e.budget === selectedBudget)
                   .map((transaction, i) => (
                     <div key={transaction.description + i} className={styles.transaction}>
                       <div className={`${styles.transactionCard} ${styles[`color-${transaction.type}`]}`}>

@@ -3,16 +3,22 @@ import styles from '../styles/ProgressBar.module.css'
 
 function ProgressBar({
   value,
+  id,
   name,
-  budget
+  budget,
+  handleSelect
 }) {
+  const handleClick = () => handleSelect(id);
   useEffect(() => {
     const progress = (100 / budget) * value + "%";
     ref.current.style.width = progress;
   })
   const ref = useRef(null)
   return (
-    <div className={styles.progressBar}>
+    <div
+      className={styles.progressBar}
+      onClick={handleClick}
+    >
       <div className={styles.name}>{name}</div>
       <div className={styles.budget}>{budget}</div>
       {/* <div style={{left: progress}} className={styles.cursor}>{value}</div> */}
