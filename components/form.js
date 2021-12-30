@@ -9,7 +9,7 @@ const steps = [
     'price',
     'method',
     'period',
-    'name',
+    'description',
     'congrats'
 ];
 
@@ -42,17 +42,19 @@ const icons = [
 
 function Form ({
     onExit,
+    handleUpdate,
+    values = {}
 }) {
-    let nameTimeout;
+    let descriptionTimeout;
     const [step, setStep] = useState(steps[0]);
-    const [values, setValues] = useState({});
 
     const handleType = (type) => {
         const newValues = {
             ...values,
             type,
         }
-        setValues(newValues);
+        console.log(newValues)
+        handleUpdate(newValues);
         scrollToItem('price')
     }
 
@@ -61,7 +63,8 @@ function Form ({
             ...values,
             price,
         }
-        setValues(newValues);
+        console.log(newValues)
+        handleUpdate(newValues);
         scrollToItem('method')
     }
 
@@ -70,7 +73,7 @@ function Form ({
             ...values,
             method,
         }
-        setValues(newValues);
+        handleUpdate(newValues);
         scrollToItem('period')
     }
 
@@ -79,16 +82,17 @@ function Form ({
             ...values,
             period,
         }
-        setValues(newValues);
-        scrollToItem('name')
+        console.log(newValues);
+        handleUpdate(newValues);
+        scrollToItem('description')
     }
 
-    const handleName = (name) => {
+    const handleDescription = (description) => {
         const newValues = {
             ...values,
-            name,
+            description,
         }
-        setValues(newValues);
+        handleUpdate(newValues);
         scrollToItem('congrats')
 
         // const timeout = setTimeout(() => {
@@ -103,7 +107,7 @@ function Form ({
             ...values,
             icon,
         }
-        setValues(newValues);
+        handleUpdate(newValues);
 
         if (timeout) clearTimeout(timeout);
         const timeout = setTimeout(() => {
@@ -112,10 +116,10 @@ function Form ({
         }, 3000);
     }
 
-    const handleNameTimeout = (name) => {
-        if (nameTimeout) clearTimeout(nameTimeout);
-        nameTimeout = setTimeout(() => {
-            handleName(name)
+    const handleDescriptionTimeout = (description) => {
+        if (descriptionTimeout) clearTimeout(descriptionTimeout);
+        descriptionTimeout = setTimeout(() => {
+            handleDescription(description)
         }, 2000);
     }
 
@@ -128,44 +132,12 @@ function Form ({
 
     const handleKeyDown = (e) => {
         console.log(e.key)
-        if (e.key === 'Enter') handleName(e.target.value);
+        if (e.key === 'Enter') handleDescription(e.target.value);
     }
 
     console.log(values);
     return  (
         <div className={styles.form}>
-            <div className={homeStyles.state}>
-                <div className={homeStyles.options}>
-                    {
-                        steps.map(step => (
-                            <Fragment key={values[step]}>
-                                {
-                                    values[step] && (
-                                        <div
-                                            className={`
-                                                ${homeStyles.transaction}
-                                                ${values[step] ? homeStyles.action : ''}
-                                                
-                                            `}
-                                            onClick={() => scrollToItem(step)}
-                                        >
-                                            <div
-                                                className={`
-                                                    ${homeStyles.transactionCard}
-                                                    ${step === 'type' && homeStyles[`color-${values[step]}`]}
-                                                `}
-                                            >
-                                                <div className={homeStyles.price}>{values[step]}</div>
-                                                <div className={homeStyles.description}></div>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                            </Fragment>
-                        ))
-                    }
-                </div>
-            </div>
             {/* Tipo de Transaccion */}
             <div id="type" className={styles.divider} />
             <div className={`${styles.step}`}>
@@ -252,7 +224,7 @@ function Form ({
             </div>
 
             {/* Nombre de la transaccion */}
-            <div id="name" className={styles.divider} />
+            <div id="description" className={styles.divider} />
             <div className={`${styles.step}`}>
                 <div className={styles.label}>Cual es el nombre de la transacción?</div>
                 <div className={homeStyles.options}>
@@ -263,7 +235,7 @@ function Form ({
                             pattern="[A-Za-z]"
                             className={styles.price}
                             placeholder="Que compraste"
-                            onChange={(e) => handleNameTimeout(e.target.value)}
+                            onChange={(e) => handleDescriptionTimeout(e.target.value)}
                             onKeyDown={handleKeyDown}
                         />
                         <div className={homeStyles.description}></div>
@@ -280,7 +252,7 @@ function Form ({
                     <div className={homeStyles.transaction}>
                     <div className={`${homeStyles.transactionCard} ${homeStyles[`color-${values.type}`]}`}>
                         <div className={homeStyles.price}>{values.price}</div>
-                        <div className={homeStyles.description}>{values.name}</div>
+                        <div className={homeStyles.description}>{values.description}</div>
                         </div>
                     <Icons icon={values.icon} active={true} />
                     </div>

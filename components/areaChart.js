@@ -8,7 +8,8 @@ const reduceTrans = (acc, {
   description,
   price,
   date,
-  type: currentType
+  type: currentType,
+  selected
 }) => {
   console.log(acc)
   let type = acc[currentType]
@@ -28,7 +29,8 @@ const reduceTrans = (acc, {
   const unit = {
     description,
     date: (new Date(date)).valueOf(),
-    price
+    price,
+    selected
   }
   console.log(unit);
   if (type?.data) {
@@ -127,8 +129,8 @@ const Chart = (props) => {
         types.map(type => {
           if (!lastType[type]) lastType[type] = 0
           unit[type] = lastType[type]
-          if (i === 2 && j == 0)
-            unit.selected = true;
+          // if (i === 2 && j == 0)
+          //   unit.selected = true;
         })
 
         unit[el.label] = unit.price
@@ -158,11 +160,65 @@ const Chart = (props) => {
     // const dataset = transactions.reduce(reduceTrans, {});
     // const edd = types.map(type => dataset[type])
 
+    console.log(eddLine);
     setData(eddLine)
-
   }, [])
+  useEffect(() => {
+    const { randomize, transactions, types, lineColor, section, setData } = props;
+    // const newData = transactions.reduce(reduceTrans, {});
+    const dataset = transactions.reduce(reduceTrans, {});
+    const newData = types.map(type => dataset[type])
+    console.log('newData');
+    console.log(newData);
+
+    let lastType = {};
+    const edd = newData.flatMap((el, i) => {
+      let lifeline = 0;
+      return el.data.map((unit, j) => {
+        // types.map(type => unit[type] = 3)
+
+        types.map(type => {
+          if (!lastType[type]) lastType[type] = 0
+          unit[type] = lastType[type]
+          // if (i === 2 && j == 0)
+          //   unit.selected = true;
+        })
+
+        unit[el.label] = unit.price
+
+        return ({
+          ...unit,
+          type: el.label,
+        })
+      })
+    })
+    const sortedEdd = edd.sort((a, b) => a.date - b.date)
+    let lifeline = 0
+    const eddLine = sortedEdd.map(unit => {
+      if (unit.type === 'expense')
+        lifeline = lifeline - unit.price;
+
+      if (unit.type === 'investment')
+        lifeline = lifeline - unit.price;
+
+      if (unit.type === 'balance')
+        lifeline = lifeline + unit.price;
+      return {
+        ...unit,
+        lifeline
+      }
+    })
+    // const dataset = transactions.reduce(reduceTrans, {});
+    // const edd = types.map(type => dataset[type])
+
+    console.log("eddLine");
+    console.log(eddLine);
+    setData(eddLine)
+  }, [props.transactions])
 
   const { randomize, transactions, types, lineColor, section, data } = props;
+  console.log('update')
+  console.log(transactions)
   return (
     <div
       className={styles.container}
@@ -194,6 +250,8 @@ const Chart = (props) => {
           {/* <Legend /> */}
 
           <Line dataKey="lifeline" stroke="#FF9A00" strokeWidth={2} type="basis" layout="vertical" />
+          <Line dataKey="selected" stroke="#FF9A00" strokeWidth={2} type="basis" layout="vertical" label />
+
 
           {types.map((type, i) => ((section && type === section) || !section) && (
             <Fragment key={type}>
@@ -202,16 +260,6 @@ const Chart = (props) => {
               {/* <Line dataKey="status" stroke={lineColors[i]} strokeWidth={5} type="basis" layout="vertical" /> */}
             </Fragment>
           ))}
-          {/* 
-        <Line
-         dataKey="selected"
-         data={sortedEdd[0]}
-         stroke={lineColors[1]}
-         strokeWidth={5}
-         type="basis"
-         layout="vertical"
-         label
-        /> */}
 
 
           {/* {[...types[0]].map((e, i) => {
